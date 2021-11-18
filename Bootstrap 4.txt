@@ -1,0 +1,18 @@
+Bootstrap 4
+
+veterianaria
+1. base
+https://getbootstrap.com/docs/5.0/getting-started/introduction/
+
+2. contenedor por default
+https://getbootstrap.com/docs/5.0/layout/containers/
+
+3. tablas
+https://getbootstrap.com/docs/5.0/content/tables/
+
+4. navegadores
+https://getbootstrap.com/docs/5.0/components/navbar/
+
+5. formularios(selects)
+https://getbootstrap.com/docs/5.0/forms/select/
+

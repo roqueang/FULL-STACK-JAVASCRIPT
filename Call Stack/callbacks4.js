@@ -1,0 +1,12 @@
+setTimeout(()=>{
+    console.log("ejecucion1");
+    setTimeout(()=>{
+        console.log("ejecucion2");
+        setTimeout(()=>{
+            console.log("ejecucion3");
+            setTimeout(()=>{
+                console.log("ejecucion4");
+            },800);
+        },1000);
+    },2000);
+},3000);
