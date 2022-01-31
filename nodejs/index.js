@@ -19,7 +19,7 @@ const callbackDelServidor =(req,res) => {
 
   //3.2 obtener variables del query url
   const { query = {} } = urlParseada;
-  console.log(query);
+  //console.log(query);
 
   //3.3 obtener headers
   const { headers = {}} = req;
@@ -46,13 +46,21 @@ const callbackDelServidor =(req,res) => {
     payload: buffer
   };
 
-    //4. enviar una respuesta dependiendo de la ruta
-  switch(rutaLimpia){
-    case 'ruta':
-      res.end('Estas en la ruta correcata');
-      break;
-    default:
-      res.end('Desconocido');
+  //3.6 elegir el manejador dependiendo de la ruta y asignarle funcion que el enrutador tiene
+  let handler;
+  if(rutaLimpia && enrutador[rutaLimpia]){
+    handler = enrutador[rutaLimpia];
+  }else{
+    handler = enrutador.noEncontrado;
+  }
+    //4. ejecutar handler (manejador) para enviar la respuesta
+    if(typeof handler === 'function'){
+      handler(data, (statusCode = 200, mensaje)=>{
+        const respuesta = JSON.stringify(mensaje);
+        res.writeHead(statusCode);
+        // linea donde realmente ya estamos respondiendo a la aplicacion cliente
+        res.end(respuesta);
+      })
     }
   });
 };
@@ -60,6 +68,9 @@ const callbackDelServidor =(req,res) => {
 const enrutador ={
   ruta: (data, callback) =>{
     callback(200,{mensaje: 'estas en /ruta'} );
+  },
+  usuarios: (data, callback) =>{
+    callback(200,[{nombre: 'usuario 1'},{nombre: 'usuario 2'}] );
   },
   noEncontrado: (data, callback) =>{
     callback(404,{mensaje: 'no encontrado'});
