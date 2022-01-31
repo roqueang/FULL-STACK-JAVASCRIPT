@@ -57,6 +57,7 @@ const callbackDelServidor =(req,res) => {
     if(typeof handler === 'function'){
       handler(data, (statusCode = 200, mensaje)=>{
         const respuesta = JSON.stringify(mensaje);
+        res.setHeader('Content-Type', 'application/json');
         res.writeHead(statusCode);
         // linea donde realmente ya estamos respondiendo a la aplicacion cliente
         res.end(respuesta);
