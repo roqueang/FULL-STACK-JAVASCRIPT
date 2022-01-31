@@ -3,10 +3,8 @@ const url = require("url");
 const StringDecoder = require('string_decoder').StringDecoder;
 
 let recursos = {
-  mascotas: [{tipo: 'Perro',nombre: 'Shadow',dueno:'Angel'},
-  {tipo: 'Perro',nombre: 'Shadow',dueno:'Angel'},
-  {tipo: 'Perro',nombre: 'Shadow',dueno:'Angel'},
-  {tipo: 'Perro',nombre: 'Shadow',dueno:'Angel'}]
+  mascotas: [{tipo: "Perro",nombre: "Shadow",dueno:"Angel"},
+  {tipo: "Perro",nombre: "Shadow",dueno:"Angel"}]
 };
 
 const callbackDelServidor =(req,res) => {
@@ -44,6 +42,10 @@ const callbackDelServidor =(req,res) => {
   req.on('end', () => {
     buffer += decoder.end();
   
+    if(headers["content-type"] ==="application/json"){
+      buffer = JSON.parse(buffer);
+    }
+  
   //3.5 ordenar la data del request
   const data = {
     ruta: rutaLimpia,
@@ -53,10 +55,12 @@ const callbackDelServidor =(req,res) => {
     payload: buffer
   };
 
+  console.log({data});
+
   //3.6 elegir el manejador dependiendo de la ruta y asignarle funcion que el enrutador tiene
   let handler;
-  if(rutaLimpia && enrutador[rutaLimpia]){
-    handler = enrutador[rutaLimpia];
+  if(rutaLimpia && enrutador[rutaLimpia] && enrutador[rutaLimpia][metodo]){
+    handler = enrutador[rutaLimpia][metodo];
   }else{
     handler = enrutador.noEncontrado;
   }
@@ -77,8 +81,14 @@ const enrutador ={
   ruta: (data, callback) =>{
     callback(200,{mensaje: 'estas en /ruta'} );
   },
-  mascotas: (data, callback) =>{
-    callback(200, recursos.mascotas);
+  mascotas: {
+    get: (data, callback) =>{
+      callback(200, recursos.mascotas);
+    },
+    post:(data, callback) =>{
+      recursos.mascotas.push(data.payload);
+      callback(201, data.payload);
+    },
   },
   noEncontrado: (data, callback) =>{
     callback(404,{mensaje: 'no encontrado'});
