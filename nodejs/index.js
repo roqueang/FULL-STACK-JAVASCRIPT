@@ -45,10 +45,16 @@ const callbackDelServidor =(req,res) => {
     if(headers["content-type"] ==="application/json"){
       buffer = JSON.parse(buffer);
     }
+
+   //3.4.3 revisar si tiene subrutas en este caso es el indice del array
+   if(rutaLimpia.indexOf("/")> -1){
+      var [rutaPrincipal, indice] = rutaLimpia.split("/");
+   }
   
   //3.5 ordenar la data del request
   const data = {
-    ruta: rutaLimpia,
+    indice,
+    ruta: rutaPrincipal || rutaLimpia,
     query,
     metodo,
     headers,
@@ -59,8 +65,9 @@ const callbackDelServidor =(req,res) => {
 
   //3.6 elegir el manejador dependiendo de la ruta y asignarle funcion que el enrutador tiene
   let handler;
-  if(rutaLimpia && enrutador[rutaLimpia] && enrutador[rutaLimpia][metodo]){
-    handler = enrutador[rutaLimpia][metodo];
+  if(data.ruta && enrutador[data.ruta] 
+    && enrutador[data.ruta][metodo]){
+    handler = enrutador[data.ruta][metodo];
   }else{
     handler = enrutador.noEncontrado;
   }
@@ -83,6 +90,13 @@ const enrutador ={
   },
   mascotas: {
     get: (data, callback) =>{
+      if(typeof data.indice !== "undefined"){
+        if(recursos.mascotas[data.indice]){
+          return callback(200, recursos.mascotas[data.indice]);
+        }
+        return callback(404,{mensaje: `mascota con indice ${data.indice} no encontrada`,
+      });
+      }
       callback(200, recursos.mascotas);
     },
     post:(data, callback) =>{
