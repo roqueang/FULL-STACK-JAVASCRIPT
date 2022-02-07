@@ -1,8 +1,9 @@
 const http = require("http");
 const url = require("url");
 const StringDecoder = require('string_decoder').StringDecoder;
+const enrutador = require('./enrutador');
 
-let recursos = {
+global.recursos = {
   mascotas: [{tipo: "Perro",nombre: "Shadow",dueno:"Angel"},
   {tipo: "Perro",nombre: "Shadow",dueno:"Angel"}]
 };
@@ -42,13 +43,13 @@ const callbackDelServidor =(req,res) => {
   req.on('end', () => {
     buffer += decoder.end();
   
-    if(headers["content-type"] ==="application/json"){
+    if(headers['content-type'] ==='application/json'){
       buffer = JSON.parse(buffer);
     }
 
    //3.4.3 revisar si tiene subrutas en este caso es el indice del array
-   if(rutaLimpia.indexOf("/")> -1){
-      var [rutaPrincipal, indice] = rutaLimpia.split("/");
+   if(rutaLimpia.indexOf('/')> -1){
+      var [rutaPrincipal, indice] = rutaLimpia.split('/');
    }
   
   //3.5 ordenar la data del request
@@ -84,30 +85,7 @@ const callbackDelServidor =(req,res) => {
   });
 };
 
-const enrutador ={
-  ruta: (data, callback) =>{
-    callback(200,{mensaje: 'estas en /ruta'} );
-  },
-  mascotas: {
-    get: (data, callback) =>{
-      if(typeof data.indice !== "undefined"){
-        if(recursos.mascotas[data.indice]){
-          return callback(200, recursos.mascotas[data.indice]);
-        }
-        return callback(404,{mensaje: `mascota con indice ${data.indice} no encontrada`,
-      });
-      }
-      callback(200, recursos.mascotas);
-    },
-    post:(data, callback) =>{
-      recursos.mascotas.push(data.payload);
-      callback(201, data.payload);
-    },
-  },
-  noEncontrado: (data, callback) =>{
-    callback(404,{mensaje: 'no encontrado'});
-  }
-}
+
 
 const server = http.createServer(callbackDelServidor);
 
