@@ -5,7 +5,7 @@ module.exports = function duenosHandler(duenos){
             if(duenos[data.indice]){
               return callback(200, duenos[data.indice]);
             }
-            return callback(404,{mensaje: `dueno con indice ${data.indice} no encontrada`,
+            return callback(404,{mensaje: `dueno con indice ${data.indice} no encontrado`,
           });
           }
           callback(200, duenos);
@@ -20,7 +20,7 @@ module.exports = function duenosHandler(duenos){
               duenos[data.indice]=data.payload;
               return callback(200, duenos[data.indice]);
             }
-            return callback(404,{mensaje: `dueno con indice ${data.indice} no encontrada`,
+            return callback(404,{mensaje: `dueno con indice ${data.indice} no encontrado`,
           });
           }
           callback(400, {mensaje: 'Indice no enviado'});
@@ -39,4 +39,4 @@ module.exports = function duenosHandler(duenos){
           callback(400, {mensaje: 'Indice no enviado'});
         },
       };
-} 
+};

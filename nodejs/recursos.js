@@ -24,6 +24,24 @@ module.exports  = {
       {
         identificacion:"0067",  pais: "Colombia",  nombre: "Jhon",  apellido: "Flores"
       }
-    ]
+    ],
+    consultas:[
+      {
+        mascota: 0,
+        veterinario: 0,
+        fechaCreacion: new Date(),
+        fechaEdicion: new Date(),
+        historial: '',
+        diagnostico: ''
+      },
+      {
+        mascota: 1,
+        veterinario: 1,
+        encabezado: '',
+        fecha: new Date(),
+        historial: '',
+        diagnostico: ''
+      },
+    ],
 
   };
