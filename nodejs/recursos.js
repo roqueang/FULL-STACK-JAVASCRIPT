@@ -16,6 +16,14 @@ module.exports  = {
         {
           identificacion:"0034", pais: "Colombia",  nombre: "Jhon", apellido: "Flores"
         }
+    ],
+    duenos:  [
+      {
+        identificacion:"0002",  pais: "Guatemala",  nombre: "Angel",  apellido:"Roque"
+      },
+      {
+        identificacion:"0067",  pais: "Colombia",  nombre: "Jhon",  apellido: "Flores"
+      }
     ]
 
   };
