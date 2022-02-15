@@ -11,9 +11,11 @@ module.exports = function consultasHandler(consultas){
           callback(200, consultas);
         },
         post:(data, callback) =>{
-            const consulta = 
-          consultas.push(data.payload);
-          callback(201, data.payload);
+            let nuevaConsulta = data.payload;
+            nuevaConsulta.fechaCreacion = new Date();
+            nuevaConsulta.fechaEdicion = null;
+          consultas = [...consultas, nuevaConsulta];
+          callback(201, nuevaConsulta);
         },
         put: (data, callback) =>{
           if(typeof data.indice !== 'undefined'){
