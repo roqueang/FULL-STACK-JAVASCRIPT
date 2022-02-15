@@ -37,8 +37,8 @@ module.exports  = {
       {
         mascota: 1,
         veterinario: 1,
-        encabezado: '',
         fecha: new Date(),
+        fechaEdicion: new Date(),
         historial: '',
         diagnostico: ''
       },
