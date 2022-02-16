@@ -21,7 +21,10 @@ let mascotas = [
 
 
 function listarMascotas() {
-  const htmlMascotas = mascotas.map((mascota, index)=>`<tr>
+  solicitarMascotas();
+  const htmlMascotas = mascotas
+  .map(
+    (mascota, index)=>`<tr>
       <th scope="row">${index}</th>
       <td>${mascota.tipo}</td>
       <td>${mascota.nombre}</td>
@@ -86,6 +89,18 @@ function eliminar(index) {
 }
 
 listarMascotas();
+
+function solicitarMascotas(){
+  fetch('http//localhost:5000/mascotas')
+  .then((respuesta) => {
+    if(respuesta.ok){
+      return respuesta.json();
+    }
+  })
+  .then((mascotasDelServer)=>{
+    console.log({ mascotasDelServer });
+  });
+}
 
 form.onsubmit = enviarDatos;
 btnGuardar.onclick = enviarDatos;
